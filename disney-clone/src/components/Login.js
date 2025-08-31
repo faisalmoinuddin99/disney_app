@@ -1,15 +1,15 @@
-import styled  from "styled-components";
+import styled from "styled-components";
 
 export const Login = (props) => {
-    return(
+    return (
         <Container>
-            <Content>Content</Content>
+            <Content><BgImage/></Content>
         </Container>
     )
 }
 
 const Container = styled.section`
-overflow: hidden;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -17,7 +17,7 @@ overflow: hidden;
 `
 
 const Content = styled.div`
-margin-bottom: 10vw;
+    margin-bottom: 10vw;
     width: 100%;
     position: relative;
     min-height: 100vh;
@@ -29,3 +29,16 @@ margin-bottom: 10vw;
     padding: 80px 40px;
     height: 100%;
 `
+
+const BgImage = styled.div`
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-image: url("/images/login-background.jpg");
+    z-index: -1;
+`;
