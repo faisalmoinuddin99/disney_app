@@ -4,9 +4,7 @@ import {auth, provider} from "../firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";   // ✅ v6
 import {
-    selectUserName,
-    selectEmail,
-    selectPhoto, setUserLoginDetails
+    selectUserName, selectEmail, selectPhoto, setUserLoginDetails
 } from "../features/user/userSlice";
 
 export const Header = (props) => {
@@ -24,49 +22,56 @@ export const Header = (props) => {
             console.error(err)
         })
     }
-    const setUser = (user)=> {
+    const setUser = (user) => {
         dispatch(setUserLoginDetails({
-            name: user.displayName,
-            email: user.email,
-            photo: user.photoURL
+            name: user.displayName, email: user.email, photo: user.photoURL
         }))
     }
-    return (
-        <Nav>
-            <Logo>
-                <img src="/images/logo.svg" alt="logo"/>
-            </Logo>
-            <NavMenu>
-                <a href="/home">
-                    <img src="/images/home-icon.svg" alt="home"/>
-                    <span>HOME</span>
-                </a>
-                <a href="/search">
-                    <img src="/images/search-icon.svg" alt="search"/>
-                    <span>SEARCH</span>
-                </a>
-                <a href="/watchlist">
-                    <img src="/images/watchlist-icon.svg" alt="watchlist"/>
-                    <span>WATCHLIST</span>
-                </a>
-                <a href="/originals">
-                    <img src="/images/original-icon.svg" alt="originals"/>
-                    <span>ORIGINALS</span>
-                </a>
-                <a href="/movies">
-                    <img src="/images/movie-icon.svg" alt="movies"/>
-                    <span>MOVIES</span>
-                </a>
-                <a href="/series">
-                    <img src="/images/series-icon.svg" alt="series"/>
-                    <span>SERIES</span>
-                </a>
-            </NavMenu>
-            <Login onClick={handleAuth}>Login</Login>
-        </Nav>
-    )
+    return (<Nav>
+        <Logo>
+            <img src="/images/logo.svg" alt="logo"/>
+        </Logo>
+        {!username ? <Login onClick={handleAuth}>Login</Login> :
+            <>
+                <NavMenu>
+                    <a href="/home">
+                        <img src="/images/home-icon.svg" alt="home"/>
+                        <span>HOME</span>
+                    </a>
+                    <a href="/search">
+                        <img src="/images/search-icon.svg" alt="search"/>
+                        <span>SEARCH</span>
+                    </a>
+                    <a href="/watchlist">
+                        <img src="/images/watchlist-icon.svg" alt="watchlist"/>
+                        <span>WATCHLIST</span>
+                    </a>
+                    <a href="/originals">
+                        <img src="/images/original-icon.svg" alt="originals"/>
+                        <span>ORIGINALS</span>
+                    </a>
+                    <a href="/movies">
+                        <img src="/images/movie-icon.svg" alt="movies"/>
+                        <span>MOVIES</span>
+                    </a>
+                    <a href="/series">
+                        <img src="/images/series-icon.svg" alt="series"/>
+                        <span>SERIES</span>
+                    </a>
+                </NavMenu>
+                <UserImg src={photo || "/images/default_profile_pic.png"} alt="user"/>
+            </>
+        }
+        {/*<Login onClick={handleAuth}>Login</Login>*/}
+    </Nav>)
 }
-
+const UserImg = styled.img`
+    height: 100%;
+    border-radius: 50%;
+    background-color: gray;  /* fallback bg */
+    object-fit: cover;
+    
+`
 const Nav = styled.nav`
     position: fixed;
     top: 0;
