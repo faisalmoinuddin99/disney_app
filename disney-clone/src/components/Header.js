@@ -1,15 +1,35 @@
 import styled from "styled-components";
-import {signInWithPopup} from "firebase/auth"
+import {signInWithPopup} from "firebase/auth";
 import {auth, provider} from "../firebase";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";   // ✅ v6
+import {
+    selectUserName,
+    selectEmail,
+    selectPhoto, setUserLoginDetails
+} from "../features/user/userSlice";
 
 export const Header = (props) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const username = useSelector(selectUserName)
+    const email = useSelector(selectEmail)
+    const photo = useSelector(selectPhoto)
+
     const handleAuth = () => {
         signInWithPopup(auth, provider).then((result) => {
-            console.log(result)
+            setUser(result.user)
         }).catch((err) => {
             alert(err);
             console.error(err)
         })
+    }
+    const setUser = (user)=> {
+        dispatch(setUserLoginDetails({
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL
+        }))
     }
     return (
         <Nav>
