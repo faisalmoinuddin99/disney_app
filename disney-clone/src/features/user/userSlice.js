@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     name: '',
@@ -15,7 +15,7 @@ const userSlice = createSlice({
             state.email = action.payload.email
             state.photo = action.payload.photo
         },
-        setSignOutState: state => {
+        setSignOutState: (state) => {
             state.name = null
             state.email = null
             state.photo = null
@@ -23,7 +23,12 @@ const userSlice = createSlice({
     }
 })
 
-export const {setUserLoginDetails, setSignOutState} = userSlice.actions;
-export const selectUserName = state => state.name
-export const selectEmail = state => state.email
-export const selectPhoto = state => state.photo
+export const { setUserLoginDetails, setSignOutState } = userSlice.actions
+
+// ✅ fix selectors
+export const selectUserName = (state) => state.user.name
+export const selectEmail = (state) => state.user.email
+export const selectPhoto = (state) => state.user.photo
+
+// ✅ reducer ko default export
+export default userSlice.reducer
