@@ -1,6 +1,16 @@
 import styled from "styled-components";
+import {signInWithPopup} from "firebase/auth"
+import {auth, provider} from "../firebase";
 
 export const Header = (props) => {
+    const handleAuth = () => {
+        signInWithPopup(auth, provider).then((result) => {
+            console.log(result)
+        }).catch((err) => {
+            alert(err);
+            console.error(err)
+        })
+    }
     return (
         <Nav>
             <Logo>
@@ -20,7 +30,7 @@ export const Header = (props) => {
                     <span>WATCHLIST</span>
                 </a>
                 <a href="/originals">
-                    <img src="/images/original-icon.svg" alt="originals" />
+                    <img src="/images/original-icon.svg" alt="originals"/>
                     <span>ORIGINALS</span>
                 </a>
                 <a href="/movies">
@@ -32,7 +42,7 @@ export const Header = (props) => {
                     <span>SERIES</span>
                 </a>
             </NavMenu>
-            <Login>Login</Login>
+            <Login onClick={handleAuth}>Login</Login>
         </Nav>
     )
 }
@@ -72,7 +82,7 @@ const NavMenu = styled.div`
     flex-flow: row nowrap;
     height: 100%;
     justify-content: flex-end;
-    margin: 0px;   /* ✅ fixed */
+    margin: 0px; /* ✅ fixed */
     padding: 0;
     position: relative;
     margin-right: auto;
@@ -82,7 +92,7 @@ const NavMenu = styled.div`
         display: flex;
         align-items: center;
         padding: 0 12px;
-        position: relative;  /* ✅ important for ::before */
+        position: relative; /* ✅ important for ::before */
 
         img {
             height: 20px;
@@ -114,7 +124,7 @@ const NavMenu = styled.div`
             right: 0px;
             transform-origin: left center;
             transform: scaleX(0);
-            transition: all 250ms cubic-bezier(0.25,0.46,0.45,0.94) 0s;
+            transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
             visibility: hidden;
             width: auto;
         }
@@ -132,14 +142,14 @@ const NavMenu = styled.div`
 `
 
 const Login = styled.a`
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 8px 16px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     border: 1px solid #f9f9f9;
     border-radius: 4px;
     transition: all 0.3s ease 0s;
-    
+
     &:hover {
         background-color: #f9f9f9;
         color: #000;
