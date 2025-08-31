@@ -1,11 +1,31 @@
+/*
+
+NOTE:
+Difference in short (interview note down karne layak):
+
+html selector → sirf root <html> element ko target karta hai.
+
+* selector → page ke sabhi elements ko target karta hai (universal selector).
+ */
+
 html {
     scroll-behavior: smooth;
+    /* jab bhi anchor link (like #section) click hota hai,
+       toh page smoothly scroll karega instead of sudden jump */
 }
 
 * {
     box-sizing: border-box;
+    /* har element ke liye ek standard set kar rahe hain:
+       width/height calculation mai padding aur border bhi include hoga,
+       isse layout predictable aur consistent banega */
 }
 
-body{
+body {
     background-color: #040714;
+    /* page ka background dark blue/blackish color set ho raha hai */
+    color: #f9f9f9;
+    font-family: Avenir-Roman, sans-serif;
+    margin: 0;
+    padding: 0;
 }
