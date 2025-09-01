@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import {signInWithPopup, onAuthStateChanged} from "firebase/auth";
+import {signInWithPopup, onAuthStateChanged, signOut} from "firebase/auth";
 import {auth, provider} from "../firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";   // ✅ v6
 import {
-    selectUserName, selectEmail, selectPhoto, setUserLoginDetails
+    selectUserName, selectEmail, selectPhoto, setUserLoginDetails, setSignOutState
 } from "../features/user/userSlice";
 import {useEffect} from "react";
 
@@ -25,12 +25,20 @@ export const Header = (props) => {
     },[username])
 
     const handleAuth = () => {
-        signInWithPopup(auth, provider).then((result) => {
-            setUser(result.user)
-        }).catch((err) => {
-            alert(err);
-            console.error(err)
-        })
+        if(!username) {
+            signInWithPopup(auth, provider).then((result) => {
+                setUser(result.user)
+            }).catch((err) => {
+                alert(err);
+                console.error(err)
+            })
+        }else if(username) {
+            signOut(auth).then(()=>{
+                dispatch(setSignOutState())
+                navigate("/")
+            }).catch((err)=> alert(err.message))
+        }
+
     }
     const setUser = (user) => {
         dispatch(setUserLoginDetails({
@@ -69,18 +77,20 @@ export const Header = (props) => {
                         <span>SERIES</span>
                     </a>
                 </NavMenu>
+                <SignOut>
                 <UserImg src={photo || "/images/default_profile_pic.png"} alt="user"/>
+                    <DropDown>
+                     <span onClick={handleAuth}>SignOut</span>
+                    </DropDown>
+                </SignOut>
             </>
         }
         {/*<Login onClick={handleAuth}>Login</Login>*/}
     </Nav>)
 }
+
 const UserImg = styled.img`
     height: 100%;
-    border-radius: 50%;
-    background-color: gray;  /* fallback bg */
-    object-fit: cover;
-    
 `
 const Nav = styled.nav`
     position: fixed;
@@ -191,3 +201,42 @@ const Login = styled.a`
         border-color: transparent;
     }
 `
+
+const DropDown = styled.div`
+    position: absolute;
+    top: 48px;
+    right: 0px;
+    background: rgb(19,19,0);
+    border: 1px solid rgba(151,151,151,0.34);
+    border-radius: 4px;
+    box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+    padding: 10px;
+    font-size: 14px;
+    letter-spacing: 3px;
+    width: 100px;
+    opacity: 0;
+`
+
+const SignOut = styled.div`
+    
+    position: relative;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    
+    ${UserImg} {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+    }
+    &:hover{
+        ${DropDown} {
+            opacity: 1;
+            transition-duration: 1s;
+        }
+    }
+`
+
