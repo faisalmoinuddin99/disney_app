@@ -43,5 +43,5 @@ test("renders Login button and triggers handleAuth on click", () => {
     fireEvent.click(loginBtn);
 
     // ✅ If no crash, test passes (you can add assertions later)
-    expect(screen.getByText(/login/i)).toBeInTheDocument();
+    expet(screen.getByText(/login/i)).toBeInTheDocument();
 });
